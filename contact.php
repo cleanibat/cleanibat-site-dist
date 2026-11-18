@@ -44,7 +44,7 @@ date_default_timezone_set('Europe/Paris');
 define('CB_PHONE_DISPLAY', '07 80 90 02 59');
 define('CB_PHONE_INTL', '+33780900259');
 define('CB_SITE', 'https://www.cleanibat.fr');
-define('CB_PUBLIC_EMAIL', 'contact@cleanibat.fr');
+define('CB_PUBLIC_EMAIL', 'aymeric@cleanibat.fr');
 
 /* =========================================================================
    Outils
