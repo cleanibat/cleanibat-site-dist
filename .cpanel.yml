@@ -1,0 +1,5 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home/riay4008/test.cleanibat.fr/
+    - /usr/bin/rsync -rlt --exclude=.git --exclude=.cpanel.yml --exclude=README.md --exclude=.htaccess ./ $DEPLOYPATH

@@ -1,0 +1,227 @@
+# 00-server-original.conf : COPIE EXACTE du .htaccess de production (o2switch).
+#
+# Ce fichier est volontairement VIDE (commentaires seulement) tant que le
+# .htaccess du serveur n'a pas été récupéré. Dans cet état, `python3 build.py`
+# n'écrit AUCUN .htaccess (avertissement affiché) et le déploiement ne doit
+# pas en envoyer.
+#
+# Pour le remplir :
+# 1. cPanel o2switch > Gestionnaire de fichiers (afficher les fichiers cachés)
+#    ou FTP : télécharger le .htaccess à la racine du site (public_html ou le
+#    dossier du domaine). En HTTP il répond 403 : il faut passer par FTP/cPanel.
+# 2. En garder une sauvegarde datée (.htaccess.bak-AAAAMMJJ).
+# 3. Coller son contenu, SANS RIEN MODIFIER, sous ce commentaire.
+# 4. python3 build.py : dist/.htaccess = ce fichier + 10-redirects.conf
+#    (release R2) + les autres blocs deploy/htaccess/*.conf (20-perf.conf…).
+#    Les redirections de 10 identiques à celles déjà présentes ici sont
+#    retirées automatiquement ; les 301 WordPress du serveur restent ici.
+# --- Copie du serveur o2switch récupérée le 18/11/2026 (sha256 5bb462240fd6850d…, fins de ligne CRLF d'origine) ---
+# Redirections 301 - migration Cleanibat WordPress vers le nouveau site statique
+RewriteEngine On
+RewriteCond %{THE_REQUEST} \s/index\.html[\s?] [NC]
+RewriteRule ^index\.html$ / [R=301,L]
+RewriteCond %{HTTPS} off [OR]
+RewriteCond %{HTTP_HOST} !^www\. [NC]
+RewriteRule ^ https://www.cleanibat.fr%{REQUEST_URI} [L,R=301]
+
+# --- Accueil ---
+Redirect 301 /accueil/ /
+
+# --- Blog / articles ---
+RedirectMatch 301 ^/articles/$ /articles.html
+Redirect 301 /2025/10/22/demoussage-toiture-pourquoi-comment-et-quand-faire-appel-a-des-professionnels-comme-cleanibat/ /articles/demoussage-toiture-faire-appel-professionnel.html
+Redirect 301 /2025/11/20/nettoyage-de-facade-en-hauts-de-france-methodes-et-produits-a-connaitre/ /articles/nettoyage-facade-methodes-produits.html
+Redirect 301 /2025/11/20/nettoyage-de-terrasse-en-hauts-de-france-garder-une-terrasse-propre-toute-lannee/ /articles/nettoyage-terrasse-entretien-annuel.html
+Redirect 301 /2025/11/20/nettoyage-de-toiture-en-hauts-de-france-prix-et-bonnes-pratiques/ /articles/nettoyage-toiture-prix-bonnes-pratiques.html
+Redirect 301 /2025/11/20/nettoyage-de-toiture-facade-et-terrasse-en-hauts-de-france-le-guide-complet/ /articles/guide-complet-nettoyage-exterieur.html
+
+# --- Pages de service (doublons consolidés) ---
+Redirect 301 /nettoyage-toiture/ /nettoyage-toiture.html
+Redirect 301 /nettoyage-de-toiture/ /nettoyage-toiture.html
+Redirect 301 /demoussage-toiture/ /nettoyage-toiture.html
+Redirect 301 /nettoyage-facade/ /nettoyage-facade.html
+Redirect 301 /nettoyage-de-facade/ /nettoyage-facade.html
+Redirect 301 /nettoyage-terrasse/ /nettoyage-terrasse.html
+Redirect 301 /nettoyage-de-terrasse/ /nettoyage-terrasse.html
+
+# --- Pages devis/contact regroupées ---
+Redirect 301 /devis/ /contact.html
+Redirect 301 /devis-toiture/ /contact.html
+Redirect 301 /devis-facade/ /contact.html
+Redirect 301 /devis-terrasse/ /contact.html
+Redirect 301 /devis-vitres/ /contact.html
+Redirect 301 /nous-contacter/ /contact.html
+Redirect 301 /merci/ /
+
+# --- Pages abandonnées ---
+Redirect 301 /nettoyage-vitres/ /
+Redirect 301 /nettoyage-de-parking/ /professionnels.html
+Redirect 301 /nettoyage-dentrepots-et-hangars/ /professionnels.html
+Redirect 301 /nettoyage-de-centre-commercial/ /professionnels.html
+Redirect 301 /nettoyage-de-store/ /professionnels.html
+Redirect 301 /services-professionnels/ /professionnels.html
+Redirect 301 /services/ /#services
+
+# --- Autres pages ---
+Redirect 301 /mentions-legales/ /mentions-legales.html
+Redirect 301 /qui-sommes-nous/ /qui-sommes-nous.html
+Redirect 301 /realisation/ /realisations.html
+Redirect 301 /realisations-nettoyage-toiture/ /realisations.html
+
+ErrorDocument 404 /404.html
+
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/webp "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/svg+xml "access plus 1 year"
+ExpiresByType text/css "access plus 1 month"
+ExpiresByType application/javascript "access plus 1 month"
+</IfModule>
+
+<IfModule mod_headers.c>
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"
+Header always set Strict-Transport-Security "max-age=31536000"
+</IfModule>
+
+# ==== Cleanibat : redirections 301 (lot L2) ====
+# FICHIER GÉNÉRÉ par site/htaccess.py (python3 -S -m site.htaccess) : ne pas éditer.
+# Sources : data/redirects_legacy.tsv, data/redirects_local.tsv
+# Placé APRÈS le .htaccess d'origine du serveur (00-server-original.conf).
+<IfModule mod_rewrite.c>
+RewriteEngine On
+
+# Redirections explicites (avant la règle générique)
+# -- redirects_legacy.tsv
+RewriteRule ^contact/?$ https://www.cleanibat.fr/contact.html [R=301,L,NE]
+RewriteRule ^realisations/?$ https://www.cleanibat.fr/realisations.html [R=301,L,NE]
+RewriteRule ^professionnels/?$ https://www.cleanibat.fr/professionnels.html [R=301,L,NE]
+RewriteRule ^traitement-hydrofuge/?$ https://www.cleanibat.fr/traitement-hydrofuge-toiture.html [R=301,L,NE]
+RewriteRule ^hydrofuge-toiture/?$ https://www.cleanibat.fr/traitement-hydrofuge-toiture.html [R=301,L,NE]
+RewriteRule ^politique-de-confidentialite/?$ https://www.cleanibat.fr/mentions-legales.html [R=301,L,NE]
+RewriteRule ^blog/?$ https://www.cleanibat.fr/articles.html [R=301,L,NE]
+RewriteRule ^category/ https://www.cleanibat.fr/articles.html [R=301,L,NE]
+RewriteRule ^a-propos/?$ https://www.cleanibat.fr/qui-sommes-nous.html [R=301,L,NE]
+RewriteRule ^avis/?$ https://www.cleanibat.fr/#avis [R=301,L,NE]
+RewriteRule ^feed/?$ https://www.cleanibat.fr/ [R=301,L,NE]
+RewriteRule ^20[0-9]{2}/[0-9]{2}/[0-9]{2}/ https://www.cleanibat.fr/articles.html [R=301,L,NE]
+# -- redirects_local.tsv
+RewriteRule ^zone-lens(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-lens.html [R=301,L,NE]
+RewriteRule ^zone-arras(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-arras.html [R=301,L,NE]
+RewriteRule ^zone-bethune(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-bethune.html [R=301,L,NE]
+RewriteRule ^zone-lille(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-lille.html [R=301,L,NE]
+RewriteRule ^zone-douai(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-douai.html [R=301,L,NE]
+RewriteRule ^zone-valenciennes(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-valenciennes.html [R=301,L,NE]
+RewriteRule ^zone-henin-beaumont(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-henin-beaumont.html [R=301,L,NE]
+RewriteRule ^zone-lievin(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-lievin.html [R=301,L,NE]
+RewriteRule ^zone-carvin(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-carvin.html [R=301,L,NE]
+RewriteRule ^zone-cambrai(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-cambrai.html [R=301,L,NE]
+
+# Règle générique : /chemin ou /chemin/ -> /chemin.html si ce fichier existe.
+# (%{DOCUMENT_ROOT} doit être la racine du site : à vérifier si le site est dans un sous-dossier.)
+RewriteCond %{REQUEST_URI} !^/(assets/|contact\.php|merci\.html)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{DOCUMENT_ROOT}/$1.html -f
+RewriteRule ^(.+?)/?$ https://www.cleanibat.fr/$1.html [R=301,L]
+</IfModule>
+# ==== fin des redirections Cleanibat ====
+
+# ==========================================================================
+# 20-perf.conf (lot L5) : cache navigateur, compression, en-têtes, accès
+# --------------------------------------------------------------------------
+# Bloc à placer APRÈS les règles existantes du serveur (00-server-original.conf)
+# et les redirections (10-redirects.conf). Assemblage : site/htaccess.py (L2).
+#
+# Ne redéclare PAS X-Content-Type-Options, Referrer-Policy ni
+# Strict-Transport-Security : le serveur les envoie déjà (doublons sinon).
+#
+# Cache d'un an « immutable » pour CSS / JS / polices / images : les CSS et JS
+# ont une URL versionnée (?v=<hash>, site/assets_url.py) ; une image ou une
+# police modifiée doit changer de NOM de fichier (sinon les visiteurs gardent
+# l'ancienne version jusqu'à un an).
+#
+# En cas de page obsolète servie par le cache LiteSpeed du serveur, activer :
+# <IfModule LiteSpeed> CacheDisable public / </IfModule> à activer en cas de cache obsolète
+# ==========================================================================
+
+Options -Indexes
+ErrorDocument 404 /404.html
+
+# ---------- Types MIME ----------
+<IfModule mod_mime.c>
+  AddType font/woff2 .woff2
+  AddType image/webp .webp
+  AddType image/avif .avif
+</IfModule>
+
+# ---------- Compression ----------
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/x-javascript application/json application/ld+json application/manifest+json application/xml text/xml application/rss+xml image/svg+xml
+</IfModule>
+
+# ---------- Expiration ----------
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/html "access plus 0 seconds"
+  ExpiresByType application/xml "access plus 1 hour"
+  ExpiresByType text/xml "access plus 1 hour"
+  ExpiresByType text/plain "access plus 1 hour"
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType text/javascript "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/avif "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+  ExpiresByType image/vnd.microsoft.icon "access plus 1 year"
+</IfModule>
+
+# ---------- En-têtes ----------
+<IfModule mod_headers.c>
+  <FilesMatch "\.(html?|php)$">
+    Header set Cache-Control "no-cache"
+  </FilesMatch>
+  <FilesMatch "\.(css|js|woff2|webp|png|svg|ico|avif)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=(), payment=()"
+  Header always set Content-Security-Policy "frame-ancestors 'self'; upgrade-insecure-requests"
+  Header always unset X-Powered-By
+  Header unset X-Powered-By
+</IfModule>
+
+# ---------- Fichiers jamais servis ----------
+# Fichiers commençant par un point (.htaccess, .env, .build-manifest.json...)
+# et sauvegardes / données / sources.
+<FilesMatch "^\.">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+<FilesMatch "\.(bak|sql|log|md|py|csv|tsv|json\.bak)$">
+  <IfModule mod_authz_core.c>
+    Require all denied
+  </IfModule>
+  <IfModule !mod_authz_core.c>
+    Order allow,deny
+    Deny from all
+  </IfModule>
+</FilesMatch>
+
+<IfModule mod_alias.c>
+  # Dossiers commençant par un point (.git/, .svn/...), sauf .well-known/
+  RedirectMatch 404 "/\.(?!well-known(/|$))"
+  # Sources du générateur, si elles se retrouvaient sur le serveur
+  RedirectMatch 404 "^/(site|content|tools|data|deploy|tests|gtm)(/|$)"
+</IfModule>
