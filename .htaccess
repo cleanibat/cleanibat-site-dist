@@ -106,6 +106,16 @@ RewriteRule ^category/ https://www.cleanibat.fr/articles.html [R=301,L,NE]
 RewriteRule ^a-propos/?$ https://www.cleanibat.fr/qui-sommes-nous.html [R=301,L,NE]
 RewriteRule ^avis/?$ https://www.cleanibat.fr/#avis [R=301,L,NE]
 RewriteRule ^feed/?$ https://www.cleanibat.fr/ [R=301,L,NE]
+# (aussi présent dans 00-server-original.conf, gardé actif)
+RewriteRule ^2025/10/22/demoussage-toiture-pourquoi-comment-et-quand-faire-appel-a-des-professionnels-comme-cleanibat/?$ https://www.cleanibat.fr/articles/demoussage-toiture-faire-appel-professionnel.html [R=301,L,NE]
+# (aussi présent dans 00-server-original.conf, gardé actif)
+RewriteRule ^2025/11/20/nettoyage-de-facade-en-hauts-de-france-methodes-et-produits-a-connaitre/?$ https://www.cleanibat.fr/articles/nettoyage-facade-methodes-produits.html [R=301,L,NE]
+# (aussi présent dans 00-server-original.conf, gardé actif)
+RewriteRule ^2025/11/20/nettoyage-de-terrasse-en-hauts-de-france-garder-une-terrasse-propre-toute-lannee/?$ https://www.cleanibat.fr/articles/nettoyage-terrasse-entretien-annuel.html [R=301,L,NE]
+# (aussi présent dans 00-server-original.conf, gardé actif)
+RewriteRule ^2025/11/20/nettoyage-de-toiture-en-hauts-de-france-prix-et-bonnes-pratiques/?$ https://www.cleanibat.fr/articles/nettoyage-toiture-prix-bonnes-pratiques.html [R=301,L,NE]
+# (aussi présent dans 00-server-original.conf, gardé actif)
+RewriteRule ^2025/11/20/nettoyage-de-toiture-facade-et-terrasse-en-hauts-de-france-le-guide-complet/?$ https://www.cleanibat.fr/articles/guide-complet-nettoyage-exterieur.html [R=301,L,NE]
 RewriteRule ^20[0-9]{2}/[0-9]{2}/[0-9]{2}/ https://www.cleanibat.fr/articles.html [R=301,L,NE]
 # -- redirects_local.tsv
 RewriteRule ^zone-lens(\.html|/)?$ https://www.cleanibat.fr/nettoyage-toiture-lens.html [R=301,L,NE]
